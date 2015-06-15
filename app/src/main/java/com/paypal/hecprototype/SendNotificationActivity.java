@@ -2,10 +2,8 @@ package com.paypal.hecprototype;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +18,7 @@ public class SendNotificationActivity extends Activity {
     private EditText inputBox;
     private String newEmail;
     private String phoneNumber;
+    private String oldEmail;
 
     private AdapterView.OnItemSelectedListener changeNotification = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -28,12 +27,13 @@ public class SendNotificationActivity extends Activity {
             if(position==1) {
                 newEmail = inputBox.getText().toString();
                 inputBox.setHint(getResources().getString(R.string.phone));
-                inputBox.setRawInputType(InputType.TYPE_CLASS_PHONE);
+                inputBox.setInputType(InputType.TYPE_CLASS_PHONE);
                 inputBox.setText(phoneNumber);
             } else {
                 phoneNumber = inputBox.getText().toString();
                 inputBox.setHint(getResources().getString(R.string.email));
-                inputBox.setRawInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                inputBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                inputBox.setSelection(inputBox.getText().length());
                 inputBox.setText(newEmail);
             }
 
@@ -54,9 +54,9 @@ public class SendNotificationActivity extends Activity {
         newEmail="";
         phoneNumber="";
         Intent intent = getIntent();
-        String email = intent.getStringExtra(LoginActivity.USERNAME);
+        oldEmail = intent.getStringExtra(LoginActivity.USERNAME);
         Button sendEmail = (Button) findViewById(R.id.send_saved_email);
-        sendEmail.setText(getResources().getString(R.string.send_email)+"\n"+email);
+        sendEmail.setText(getResources().getString(R.string.send_email)+"\n"+oldEmail);
 
         Spinner spinner = (Spinner) findViewById(R.id.notification_method);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -90,7 +90,12 @@ public class SendNotificationActivity extends Activity {
     }
 
     public void sendNotification(View view) {
-        Intent intent=new Intent(this, TVActivity.class);
+        goToLoading();
+    }
+
+    public void goToLoading() {
+        Intent intent=new Intent(this, LoadingActivity.class);
+        intent.putExtra(LoginActivity.USERNAME, oldEmail);
         startActivity(intent);
     }
 }

@@ -42,15 +42,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PaymentMethodActivity" />
         </activity>
-        <activity android:name=".TVActivity"
+        <activity
+            android:name=".TVActivity"
             android:label="@string/title_activity_tv"
-            android:parentActivityName=".SendNotificationActivity"/>
+            android:parentActivityName=".SendNotificationActivity" />
         <activity android:name=".DetailsActivity" />
         <activity android:name=".PlaybackOverlayActivity" />
         <activity android:name=".BrowseErrorActivity" />
         <activity
             android:name=".ProductActivity"
             android:label="@string/title_activity_product" >
+        </activity>
+        <activity
+            android:name=".LoadingActivity"
+            android:label="@string/title_activity_loading" >
         </activity>
     </application>
 
