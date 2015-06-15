@@ -1,10 +1,12 @@
 package com.paypal.hecprototype;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -49,8 +51,17 @@ public class PaymentMethodActivity extends Activity {
         Intent intent = new Intent(this, SendNotificationActivity.class);
         intent.putExtra(LoginActivity.USERNAME, username);
         String cartToken = createCart();
-        intent.putExtra(CART_TOKEN, cartToken);
-        startActivity(intent);
+        if(cartToken.equals("error")){
+            Context context = getApplicationContext();
+            CharSequence text = "ERROR";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } else{
+            intent.putExtra(CART_TOKEN, cartToken);
+            startActivity(intent);
+        }
     }
 
     private String createCart() {
@@ -66,11 +77,11 @@ public class PaymentMethodActivity extends Activity {
                 JSONObject cartObj = new JSONObject();
 
                 try {
-                    HttpPost post = new HttpPost("http://10.0.2.2:80/api/cart/submit");
+                    HttpPost post = new HttpPost(getResources().getString(R.string.submit_cart_url));
                     JSONArray cart = new JSONArray(new String[]{"standard"});
                     cartObj.put("cart", cart);
                     json.put("clientID", 1);
-                    json.put("clientKey", "cb91d8ecbe332c731db35e5bd018dacd39359a0d4bde5f5d33b6b438a19df9fa");
+                    json.put("clientKey", getResources().getString(R.string.client_key));
                     json.put("data", cartObj);
                     StringEntity se = new StringEntity(json.toString());
                     se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
@@ -81,11 +92,15 @@ public class PaymentMethodActivity extends Activity {
                     if(httpresponse!=null){
                         //Get the data in the entity
                         JSONObject jsonResponse = new JSONObject(EntityUtils.toString(httpresponse.getEntity()));
-                        response[0] = (String) ((JSONObject) jsonResponse.get("data")).get("token");
+                        if("success".equals((String) jsonResponse.get("status"))) {
+                            response[0] = (String) ((JSONObject) jsonResponse.get("data")).get("token");
+                        } else {
+                            response[0] = "error";
+                        }
                     }
                 } catch(Exception e) {
                     e.printStackTrace();
-                    response[0] = e.getMessage();
+                    response[0] = "error";
                 }
             }
         });
