@@ -8,6 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class LoadingActivity extends Activity {
     private String email;
@@ -17,7 +20,33 @@ public class LoadingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
         email = getIntent().getStringExtra(LoginActivity.USERNAME);
+        getStatus(getIntent().getStringExtra(PaymentMethodActivity.CART_TOKEN));
     }
+
+    private String getStatus(String cartID) {
+        JSONObject json = new JSONObject();
+        JSONObject cartToken = new JSONObject();
+
+        try {
+            cartToken.put("ec_token", cartID);
+            json.put("clientID", 1);
+            json.put("clientKey", getResources().getString(R.string.client_key));
+            json.put("data", cartToken);
+
+            JSONObject jsonResponse = HTTPNetworkManager.postRequest(json, getResources().getString(R.string.payment_status_url));
+
+            if (jsonResponse != null && "success".equals((String) jsonResponse.get("status"))) {
+                goToNetflix();
+                return (String) ((JSONObject) jsonResponse.get("data")).get("status");
+            } else {
+                return "error";
+            }
+        } catch(JSONException e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -39,4 +68,9 @@ public class LoadingActivity extends Activity {
         intent.putExtra(LoginActivity.USERNAME, email);
         startActivity(intent);
     }
-}
+
+    private void goToNetflix() {
+        Intent intent=new Intent(this, TVActivity.class);
+        startActivity(intent);
+    }
+ }
