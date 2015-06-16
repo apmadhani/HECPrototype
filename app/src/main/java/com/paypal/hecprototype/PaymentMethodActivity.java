@@ -18,6 +18,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PaymentMethodActivity extends Activity {
@@ -65,53 +66,27 @@ public class PaymentMethodActivity extends Activity {
     }
 
     private String createCart() {
-        final String[] response = new String[1];
+        JSONObject json = new JSONObject();
+        JSONObject cartObj = new JSONObject();
 
-        Thread thread = new Thread(new Runnable(){
-            @Override
-            public void run() {
-                HttpClient client = new DefaultHttpClient();
-                HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
-                HttpResponse httpresponse;
-                JSONObject json = new JSONObject();
-                JSONObject cartObj = new JSONObject();
-
-                try {
-                    HttpPost post = new HttpPost(getResources().getString(R.string.submit_cart_url));
-                    JSONArray cart = new JSONArray(new String[]{"standard"});
-                    cartObj.put("cart", cart);
-                    json.put("clientID", 1);
-                    json.put("clientKey", getResources().getString(R.string.client_key));
-                    json.put("data", cartObj);
-                    StringEntity se = new StringEntity(json.toString());
-                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                    post.setEntity(se);
-                    httpresponse = client.execute(post);
-
-            /*Checking response */
-                    if(httpresponse!=null){
-                        //Get the data in the entity
-                        JSONObject jsonResponse = new JSONObject(EntityUtils.toString(httpresponse.getEntity()));
-                        if("success".equals((String) jsonResponse.get("status"))) {
-                            response[0] = (String) ((JSONObject) jsonResponse.get("data")).get("token");
-                        } else {
-                            response[0] = "error";
-                        }
-                    }
-                } catch(Exception e) {
-                    e.printStackTrace();
-                    response[0] = "error";
-                }
-            }
-        });
-
-        thread.start();
         try {
-            thread.join();
-        } catch (InterruptedException e) {
+            JSONArray cart = new JSONArray(new String[]{"standard"});
+            cartObj.put("cart", cart);
+            json.put("clientID", 1);
+            json.put("clientKey", getResources().getString(R.string.client_key));
+            json.put("data", cartObj);
+
+            JSONObject jsonResponse = HTTPNetworkManager.postRequest(json, getResources().getString(R.string.submit_cart_url));
+
+            if (jsonResponse != null && "success".equals((String) jsonResponse.get("status"))) {
+                return (String) ((JSONObject) jsonResponse.get("data")).get("token");
+            } else {
+                return "error";
+            }
+        }catch(JSONException e) {
             e.printStackTrace();
+            return e.getMessage();
         }
-        return response[0];
     }
 
     public void doNothing(View view) {
