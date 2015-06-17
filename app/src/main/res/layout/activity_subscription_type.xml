@@ -5,7 +5,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.paypal.hecprototype.PaymentMethodActivity">
+    tools:context="com.paypal.hecprototype.SubscriptionTypeActivity">
 
 
     <TextView
@@ -14,7 +14,7 @@
         android:padding="@dimen/tiny_margin"
         android:textSize="@dimen/text_size"
         android:textIsSelectable="false"
-        android:text="@string/choose_payment"
+        android:text="@string/set_subscription"
         android:textStyle="italic"
         android:textColor="@color/white"
         />
@@ -32,23 +32,24 @@
         android:layout_centerInParent="true"
         android:padding="@dimen/normal_margin">
 
-        <ImageButton android:id ="@+id/PayPalButton"
+        <Button
             android:layout_width="@dimen/view_size_larger"
             android:layout_height="@dimen/view_size"
-            android:src="@drawable/paypal_logo"
             android:layout_margin="@dimen/normal_margin"
+            android:text="@string/standard"
             android:clickable="true"
-            android:onClick="sendNotificationPage"
+            android:onClick="paymentStandard"
             />
 
-        <ImageButton
+        <Button
             android:layout_width="@dimen/view_size_larger"
             android:layout_height="@dimen/view_size"
-            android:src="@drawable/mastercard"
+            android:text="@string/premium"
             android:layout_margin="@dimen/normal_margin"
             android:clickable="true"
             android:scaleType="fitXY"
-        />
+            android:onClick="paymentPremium"
+            />
     </LinearLayout>
 
 </RelativeLayout>

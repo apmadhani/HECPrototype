@@ -24,13 +24,16 @@ import org.json.JSONObject;
 public class PaymentMethodActivity extends Activity {
 //    Bitmap paypal;
     private String username;
+    private String subscription;
     public static final String CART_TOKEN = "com.paypal.hecprototype.cartToken";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_method);
-        username = getIntent().getStringExtra(LoginActivity.USERNAME);
+        Intent intent = getIntent();
+        username = intent.getStringExtra(LoginActivity.USERNAME);
+        subscription = intent.getStringExtra(SubscriptionTypeActivity.SUBSCRIPTION);
     }
 
     @Override
@@ -51,6 +54,7 @@ public class PaymentMethodActivity extends Activity {
     public void sendNotificationPage(View view) {
         Intent intent = new Intent(this, SendNotificationActivity.class);
         intent.putExtra(LoginActivity.USERNAME, username);
+        intent.putExtra(SubscriptionTypeActivity.SUBSCRIPTION, subscription);
         String cartToken = createCart();
         if(cartToken.equals("error")){
             Context context = getApplicationContext();
@@ -70,7 +74,7 @@ public class PaymentMethodActivity extends Activity {
         JSONObject cartObj = new JSONObject();
 
         try {
-            JSONArray cart = new JSONArray(new String[]{"standard"});
+            JSONArray cart = new JSONArray(new String[]{subscription});
             cartObj.put("cart", cart);
             json.put("clientID", 1);
             json.put("clientKey", getResources().getString(R.string.client_key));

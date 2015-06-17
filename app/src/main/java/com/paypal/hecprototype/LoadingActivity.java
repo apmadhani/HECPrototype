@@ -36,8 +36,13 @@ public class LoadingActivity extends Activity {
             JSONObject jsonResponse = HTTPNetworkManager.postRequest(json, getResources().getString(R.string.payment_status_url));
 
             if (jsonResponse != null && "success".equals((String) jsonResponse.get("status"))) {
-                goToNetflix();
-                return (String) ((JSONObject) jsonResponse.get("data")).get("status");
+                String status = (String) ((JSONObject) jsonResponse.get("data")).get("status");
+                if(status == "success") {
+                    goToNetflix();
+                } else {
+                    cancel();
+                }
+                return status;
             } else {
                 return "error";
             }
@@ -64,7 +69,11 @@ public class LoadingActivity extends Activity {
     }
 
     public void cancel(View view) {
-        Intent intent=new Intent(this, PaymentMethodActivity.class);
+        cancel();
+    }
+
+    public void cancel() {
+        Intent intent=new Intent(this, SubscriptionTypeActivity.class);
         intent.putExtra(LoginActivity.USERNAME, email);
         startActivity(intent);
     }

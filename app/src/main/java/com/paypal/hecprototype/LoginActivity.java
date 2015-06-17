@@ -36,7 +36,7 @@ public class LoginActivity extends Activity {
     }
 
     public void choosePaymentMethod(View view) {
-        Intent intent = new Intent(this, PaymentMethodActivity.class);
+        Intent intent = new Intent(this, SubscriptionTypeActivity.class);
         EditText email = (EditText) findViewById(R.id.username);
         String message = email.getText().toString();
         intent.putExtra(USERNAME, message);
