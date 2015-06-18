@@ -20,7 +20,12 @@ public class LoadingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
         email = getIntent().getStringExtra(LoginActivity.USERNAME);
-        getStatus(getIntent().getStringExtra(PaymentMethodActivity.CART_TOKEN));
+        final String cartID = getIntent().getStringExtra(PaymentMethodActivity.CART_TOKEN);
+        new Thread(new Runnable() {
+            public void run() {
+                getStatus(cartID);
+            }
+        }).start();
     }
 
     private String getStatus(String cartID) {
@@ -37,7 +42,7 @@ public class LoadingActivity extends Activity {
 
             if (jsonResponse != null && "success".equals((String) jsonResponse.get("status"))) {
                 String status = (String) ((JSONObject) jsonResponse.get("data")).get("status");
-                if(status == "success") {
+                if(status.equals("completed")) {
                     goToNetflix();
                 } else {
                     cancel();
@@ -73,7 +78,7 @@ public class LoadingActivity extends Activity {
     }
 
     public void cancel() {
-        Intent intent=new Intent(this, SubscriptionTypeActivity.class);
+        Intent intent=new Intent(this, CancelledActivity.class);
         intent.putExtra(LoginActivity.USERNAME, email);
         startActivity(intent);
     }

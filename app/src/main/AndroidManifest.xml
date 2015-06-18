@@ -61,6 +61,10 @@
             android:name=".SubscriptionTypeActivity"
             android:label="@string/title_activity_subscription_type" >
         </activity>
+        <activity
+            android:name=".CancelledActivity"
+            android:label="@string/title_activity_cancelled" >
+        </activity>
     </application>
 
 </manifest>
