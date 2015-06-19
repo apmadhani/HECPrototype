@@ -36,6 +36,7 @@
             android:layout_width="@dimen/view_size_larger"
             android:layout_height="@dimen/view_size"
             android:layout_margin="@dimen/normal_margin"
+            android:id="@+id/standard"
             android:text="@string/standard"
             android:clickable="true"
             android:onClick="paymentStandard"
@@ -44,6 +45,7 @@
         <Button
             android:layout_width="@dimen/view_size_larger"
             android:layout_height="@dimen/view_size"
+            android:id="@+id/premium"
             android:text="@string/premium"
             android:layout_margin="@dimen/normal_margin"
             android:clickable="true"

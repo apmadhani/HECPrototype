@@ -32,7 +32,7 @@
         android:layout_centerInParent="true"
         android:padding="@dimen/normal_margin">
 
-        <ImageButton android:id ="@+id/PayPalButton"
+        <ImageButton android:id ="@+id/paypal_button"
             android:layout_width="@dimen/view_size_larger"
             android:layout_height="@dimen/view_size"
             android:src="@drawable/paypal_logo"
@@ -44,6 +44,7 @@
         <ImageButton
             android:layout_width="@dimen/view_size_larger"
             android:layout_height="@dimen/view_size"
+            android:id="@+id/credit_card"
             android:src="@drawable/mastercard"
             android:layout_margin="@dimen/normal_margin"
             android:clickable="true"
