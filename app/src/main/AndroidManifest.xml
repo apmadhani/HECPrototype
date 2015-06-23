@@ -65,6 +65,10 @@
             android:name=".CancelledActivity"
             android:label="@string/title_activity_cancelled" >
         </activity>
+        <activity
+            android:name=".NotificationMethodActivity"
+            android:label="@string/title_activity_notification_method" >
+        </activity>
     </application>
 
 </manifest>

@@ -30,27 +30,24 @@
     <string name="start_position">startPosition</string>
     <string name="search_results">Search Results</string>
     <string name="email">Email</string>
+    <string name="sms">SMS</string>
     <string name="phone">Phone Number</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="set_subscription">Step 2: Choose your Subscription Type</string>
     <string name="choose_payment">Step 3: Choose Your Payment Method</string>
-    <string name="send_notification">Step 4: Get Your Billing Agreement</string>
-    <string name="complete_payment_online">Step 5: Complete your Payment online</string>
+    <string name="choose_notification_method">Step 4: Choose Your Notification Method</string>
+    <string name="send_notification">Step 5: Contact Info</string>
+    <string name="complete_payment_online">Step 6: Complete your Payment online</string>
     <string name="payment_cancelled">Payment Cancelled</string>
     <string name="cancelled_extra_info">Please press the button below to return to the subscription page</string>
     <string name="notification_extra_info">We will email or text you a link where you can finish your payment on a laptop or mobile device</string>
     <string name="send_email">Send Email To:</string>
     <string name="submit_notification_method">Submit</string>
-    <string name="or">OR</string>
     <string name="cancel">Cancel</string>
     <string name="prompt_continue">When you\'re finished paying online with the link we sent, you will automatically proceed to Netflix</string>
     <string name="standard">standard</string>
     <string name="premium">premium</string>
-    <string-array name="notification_methods">
-        <item>Email</item>
-        <item>Text</item>
-    </string-array>
     <!-- Error messages -->
     <string name="video_error_media_load_timeout">Media loading timed out</string>
     <string name="video_error_server_inaccessible">Media server was not reachable</string>
@@ -70,4 +67,5 @@
     <string name="title_activity_subscription_type">SubscriptionTypeActivity</string>
     <string name="title_activity_cancelled">CancelledActivity</string>
     <string name="goto_subscription">Go To Subscription Page</string>
+    <string name="title_activity_notification_method">NotificationMethodActivity</string>
 </resources>

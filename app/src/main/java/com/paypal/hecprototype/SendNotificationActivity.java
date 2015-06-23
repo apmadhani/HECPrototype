@@ -31,61 +31,26 @@ import org.json.JSONObject;
 public class SendNotificationActivity extends Activity {
 
     private EditText inputBox;
-    private String newEmail;
-    private String phoneNumber;
-    private String oldEmail;
+    private String givenEmail;
     private String cartID;
-    private Spinner methodSpinner;
+    private String notification_method;
 
-    private AdapterView.OnItemSelectedListener changeNotification = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            // your code here
-            if(position==1) {
-                newEmail = inputBox.getText().toString();
-                inputBox.setHint(getResources().getString(R.string.phone));
-                inputBox.setInputType(InputType.TYPE_CLASS_PHONE);
-                inputBox.setText(phoneNumber);
-            } else {
-                phoneNumber = inputBox.getText().toString();
-                inputBox.setHint(getResources().getString(R.string.email));
-                inputBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-                inputBox.setSelection(inputBox.getText().length());
-                inputBox.setText(newEmail);
-            }
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parentView) {
-            // your code here
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_notification);
-        inputBox = (EditText) findViewById(R.id.contact);
-        newEmail="";
-        phoneNumber="";
         Intent intent = getIntent();
-        oldEmail = intent.getStringExtra(LoginActivity.USERNAME);
+        givenEmail = intent.getStringExtra(LoginActivity.USERNAME);
         cartID=intent.getStringExtra(PaymentMethodActivity.CART_TOKEN);
-        Button sendEmail = (Button) findViewById(R.id.send_saved_email);
-        sendEmail.setText(getResources().getString(R.string.send_email)+"\n"+oldEmail);
+        notification_method = intent.getStringExtra(NotificationMethodActivity.NOTIFICATION_METHOD);
 
-        methodSpinner = (Spinner) findViewById(R.id.notification_method);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.notification_methods, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        methodSpinner.setAdapter(adapter);
-        methodSpinner.setOnItemSelectedListener(this.changeNotification);
-        HideKeyboard.setupUI((View) findViewById(R.id.activity_send_notification_wrapper), this);
+        inputBox = (EditText) findViewById(R.id.contact);
+        if (notification_method.equals(getResources().getString(R.string.email))) {
+            inputBox.setText(givenEmail);
+            inputBox.setHint(getResources().getString(R.string.email));
+            inputBox.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        }
     }
 
     @Override
@@ -104,10 +69,10 @@ public class SendNotificationActivity extends Activity {
     }
 
     public void sendCustomNotification(View view) {
-        String resp;
-        if  (methodSpinner.getSelectedItemPosition() == 1) {
+        String resp = "error";
+        if  (notification_method.equals(getResources().getString(R.string.sms))) {
             resp = sendNotification("phone", inputBox.getText().toString());
-        } else {
+        } else if (notification_method.equals(getResources().getString(R.string.email))) {
             resp = sendNotification("email", inputBox.getText().toString());
         }
         if(resp.equals("error")) {
@@ -124,14 +89,6 @@ public class SendNotificationActivity extends Activity {
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
-    }
-
-    public void sendNotification(View view) {
-        if(sendNotification("email", oldEmail).equals("error")){
-            showError();
-        } else {
-            goToLoading();
-        }
     }
 
     private String sendNotification(final String method, final String destination) {
@@ -161,10 +118,9 @@ public class SendNotificationActivity extends Activity {
         }
     }
 
-
     public void goToLoading() {
         Intent intent=new Intent(this, LoadingActivity.class);
-        intent.putExtra(LoginActivity.USERNAME, oldEmail);
+        intent.putExtra(LoginActivity.USERNAME, givenEmail);
         intent.putExtra(PaymentMethodActivity.CART_TOKEN, cartID);
         startActivity(intent);
     }

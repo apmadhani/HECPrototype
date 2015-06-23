@@ -52,7 +52,7 @@ public class PaymentMethodActivity extends Activity {
     }
 
     public void sendNotificationPage(View view) {
-        Intent intent = new Intent(this, SendNotificationActivity.class);
+        Intent intent = new Intent(this, NotificationMethodActivity.class);
         intent.putExtra(LoginActivity.USERNAME, username);
         intent.putExtra(SubscriptionTypeActivity.SUBSCRIPTION, subscription);
         String cartToken = createCart(1,
