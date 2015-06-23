@@ -83,6 +83,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/notification_button"
             android:layout_below="@id/notification_method"
             android:layout_centerHorizontal="true"
             android:text="@string/submit_notification_method"

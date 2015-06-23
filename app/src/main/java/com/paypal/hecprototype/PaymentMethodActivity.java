@@ -55,7 +55,10 @@ public class PaymentMethodActivity extends Activity {
         Intent intent = new Intent(this, SendNotificationActivity.class);
         intent.putExtra(LoginActivity.USERNAME, username);
         intent.putExtra(SubscriptionTypeActivity.SUBSCRIPTION, subscription);
-        String cartToken = createCart();
+        String cartToken = createCart(1,
+                getResources().getString(R.string.client_key),
+                new String[]{subscription},
+                getResources().getString(R.string.submit_cart_url));
         if(cartToken.equals("error")){
             Context context = getApplicationContext();
             CharSequence text = "ERROR";
@@ -69,18 +72,18 @@ public class PaymentMethodActivity extends Activity {
         }
     }
 
-    private String createCart() {
+    public static String createCart(int clientID, String clientKey, String[] cartString, String url) {
         JSONObject json = new JSONObject();
         JSONObject cartObj = new JSONObject();
 
         try {
-            JSONArray cart = new JSONArray(new String[]{subscription});
+            JSONArray cart = new JSONArray(cartString);
             cartObj.put("cart", cart);
-            json.put("clientID", 1);
-            json.put("clientKey", getResources().getString(R.string.client_key));
+            json.put("clientID", clientID);
+            json.put("clientKey", clientKey);
             json.put("data", cartObj);
 
-            JSONObject jsonResponse = HTTPNetworkManager.postRequest(json, getResources().getString(R.string.submit_cart_url));
+            JSONObject jsonResponse = HTTPNetworkManager.postRequest(json, url);
 
             if (jsonResponse != null && "success".equals((String) jsonResponse.get("status"))) {
                 return (String) ((JSONObject) jsonResponse.get("data")).get("token");
