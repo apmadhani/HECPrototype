@@ -32,22 +32,23 @@
         android:layout_centerInParent="true"
         android:padding="@dimen/normal_margin">
 
-        <Button
+        <ImageButton
             android:layout_width="@dimen/view_size_larger"
             android:layout_height="@dimen/view_size"
             android:layout_margin="@dimen/normal_margin"
             android:id="@+id/standard"
-            android:text="@string/standard"
+            android:src="@drawable/standard"
             android:clickable="true"
+            android:scaleType="fitXY"
             android:onClick="paymentStandard"
             />
 
-        <Button
+        <ImageButton
             android:layout_width="@dimen/view_size_larger"
             android:layout_height="@dimen/view_size"
             android:id="@+id/premium"
-            android:text="@string/premium"
             android:layout_margin="@dimen/normal_margin"
+            android:src="@drawable/premium"
             android:clickable="true"
             android:scaleType="fitXY"
             android:onClick="paymentPremium"
