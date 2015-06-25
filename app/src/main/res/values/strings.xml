@@ -45,6 +45,7 @@
     <string name="send_email">Send Email To:</string>
     <string name="submit_notification_method">Submit</string>
     <string name="cancel">Cancel</string>
+    <string name="prompt_go_online">Please proceed to your laptop or mobile device and follow the link we sent you in order to approve your payment</string>
     <string name="prompt_continue">When you\'re finished paying online with the link we sent, you will automatically proceed to Netflix</string>
     <string name="standard">standard</string>
     <string name="premium">premium</string>
