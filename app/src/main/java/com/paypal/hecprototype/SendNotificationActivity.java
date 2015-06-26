@@ -44,12 +44,17 @@ public class SendNotificationActivity extends Activity {
         givenEmail = intent.getStringExtra(LoginActivity.USERNAME);
         cartID=intent.getStringExtra(PaymentMethodActivity.CART_TOKEN);
         notification_method = intent.getStringExtra(NotificationMethodActivity.NOTIFICATION_METHOD);
+        HideKeyboard.setupUI(findViewById(R.id.activity_send_notification_wrapper), this);
 
         inputBox = (EditText) findViewById(R.id.contact);
         if (notification_method.equals(getResources().getString(R.string.email))) {
-            inputBox.setText(givenEmail);
+            inputBox.setRawInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
             inputBox.setHint(getResources().getString(R.string.email));
-            inputBox.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+            inputBox.setText(givenEmail);
+        } else {
+            inputBox.setRawInputType(InputType.TYPE_CLASS_PHONE);
+            inputBox.setInputType(InputType.TYPE_CLASS_PHONE);
+            inputBox.setHint(getString(R.string.phone));
         }
     }
 
