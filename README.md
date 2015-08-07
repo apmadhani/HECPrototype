@@ -74,7 +74,7 @@ Request `data`
 }
 ```
 
-The `method` field can be "email", "phone", or "quickphone", and `destination` should be a corresponding phone number or email address.
+The `method` field can be "email" or "phone", and `destination` should be a corresponding phone number or email address.
 
 Response `data`
 
@@ -84,7 +84,7 @@ Response `data`
 }
 ```
 
-The `message` will be "The PayPal Express Checkout link has been delivered." if using a method of "email" or "phone". If using the method "quickphone", it will reply with a `message` of "The quick SMS message has been sent."a
+The `message` will be "The PayPal Express Checkout link has been delivered." if using a method of "email" or "phone".
 
 ### /payment/status
 
